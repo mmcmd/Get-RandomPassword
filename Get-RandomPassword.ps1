@@ -67,12 +67,12 @@ function Error-Message{ # Helper function to display an error message
 function Import-Dictionnary{
     try{
         Yellow-Text("Importing dictionaries")
-        $longpassword = Get-Content -Path "$PSScriptRoot\google-10000-english-usa-no-swears-long.txt"
-        $mediumpassword = Get-Content -Path "$PSScriptRoot\google-10000-english-usa-no-swears-medium.txt"
-        $shortpassword = Get-Content -Path "$PSScriptRoot\google-10000-english-usa-no-swears-short.txt"
+        $longpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+        $mediumpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
+        $shortpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
     }
     catch [ItemNotFoundException]{
-        Red-Text("The required dictionnary files are not present. Please make sure the required files are in the root of the script directory.")
+        Red-Text("The required dictionnary files are not present. Please make sure the required files are in the ressources folder.")
     }
     catch{
         Red-Text("An error occured importing the dictionaries! See below for more information:")
