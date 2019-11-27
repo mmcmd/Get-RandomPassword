@@ -85,7 +85,7 @@ function Add-Delimiter{
     
     $sanitized = $random_words -Join " "
     $sanitized.Replace(" ","$delimiter")
-    $sanitized | Write-Host -ForegroundColor Green -BackgroundColor Black
+    $sanitized
 }
 
 
