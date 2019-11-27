@@ -40,6 +40,7 @@ $ErrorActionPreference = "Stop"
 
 
 function Yellow-Text{ # Helper function to make text yellow with a black background
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
         [string]
@@ -49,6 +50,7 @@ function Yellow-Text{ # Helper function to make text yellow with a black backgro
 }
 
 function Red-Text{ # Helper function to make text red with a black background
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
         [string]
@@ -61,6 +63,20 @@ function Red-Text{ # Helper function to make text red with a black background
 function Error-Message{ # Helper function to display an error message
     Red-Text($Error[0].Exception.Message)
     Red-Text("Error category: $($Error[0].Exception.GetType().Name)")
+}
+
+function Add-Delimiter{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]
+        $random_words,
+        [Parameter(Mandatory=$true)]
+        [string]
+        $Delimiter
+    )
+    
+    
 }
 
 
@@ -81,14 +97,53 @@ function Import-Dictionnary{
 }
 
 function Get-RandomPassword{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [TypeName]
+        $ParameterName
+    )
     Import-Dictionnary
-    do{
-        switch ($) {
-            condition {  }
-            Default {}
-        }
-    } while()
 
+    if ($medium -eq $true -and $long -eq $true){
+        throw "Too many switches were given"
+    }
+    if ($medium -eq $true -and $short -eq $true){
+        throw "Too many switches were given"
+    }
+    if ($short -eq $true -and $long -eq $true){
+        throw "Too many switches were given"
+    }
+    if ($short -eq $true -and $medium -eq $true -and $long -eq $true){
+        throw "Too many switches were given"
+    }
+
+    if ($medium -eq $true){
+        try{
+            $random_words = Get-Random -Count $Words -InputObject $mediumpassword
+        }
+        catch{
+            Write-Host "Error occured generating the password. See message below:" -ForegroundColor Red -BackgroundColor Black
+            Error-Message -message "Error occured generating the password. See message below:"
+        }
+    }
+    if ($short -eq $true){
+        try{
+            $random_words = Get-Random -Count $Words -InputObject $shortpassword
+        }
+        catch{
+            Write-Host "Error occured generating the password.  See message below:"
+            Error-Message -message "Error occured generating the password. See message below:"
+        }
+    }
+    if ($long -eq $true){
+        try{
+            $random_words = Get-Random -Count $Words -InputObject $shortpassword
+        }
+        catch{
+            Red-Text -message "Error occured generating the password. See message below:"
+        }
+    }
 
 }
 
