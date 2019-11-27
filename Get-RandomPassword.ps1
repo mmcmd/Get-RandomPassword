@@ -83,7 +83,9 @@ function Add-Delimiter{
         $Delimiter
     )
     
-    
+    $sanitized = $random_words -Join " "
+    $sanitized.Replace(" ","$delimiter")
+    $sanitized | Write-Host -ForegroundColor Green -BackgroundColor Black
 }
 
 
@@ -153,19 +155,3 @@ function Get-RandomPassword{
     }
 
 }
-
-
-
-<# Menu function, not necessary and will probably bin this
-function Menu{
-    do{
-        switch ($Menu) {
-            1 {  }
-            2 {  }
-            "Q" {}
-            Default {}
-        }
-
-    } while($Menu -ne "Q")
-
-}#>
