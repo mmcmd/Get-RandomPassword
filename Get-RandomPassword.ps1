@@ -130,6 +130,7 @@ function Get-RandomPassword{
     if ($medium -eq $true){
         try{
             $random_words = Get-Random -Count $Words -InputObject $mediumpassword
+            Add-Delimiter -random_words $random_words -Delimiter $Delimiter
         }
         catch{
             Write-Host "Error occured generating the password. See message below:" -ForegroundColor Red -BackgroundColor Black
@@ -139,6 +140,7 @@ function Get-RandomPassword{
     if ($short -eq $true){
         try{
             $random_words = Get-Random -Count $Words -InputObject $shortpassword
+            Add-Delimiter -random_words $random_words -Delimiter $Delimiter
         }
         catch{
             Write-Host "Error occured generating the password.  See message below:"
@@ -148,6 +150,7 @@ function Get-RandomPassword{
     if ($long -eq $true){
         try{
             $random_words = Get-Random -Count $Words -InputObject $shortpassword
+            Add-Delimiter -random_words $random_words -Delimiter $Delimiter
         }
         catch{
             Red-Text -message "Error occured generating the password. See message below:"
