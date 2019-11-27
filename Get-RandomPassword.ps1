@@ -61,6 +61,13 @@ function Red-Text{ # Helper function to make text red with a black background
 }
 
 function Error-Message{ # Helper function to display an error message
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [string]
+        $Message
+    )
+    Red-Text -message $Message
     Red-Text($Error[0].Exception.Message)
     Red-Text("Error category: $($Error[0].Exception.GetType().Name)")
 }
