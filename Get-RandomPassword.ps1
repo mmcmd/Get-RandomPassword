@@ -25,7 +25,7 @@
 .NOTES
     General notes # To do later
 .FUNCTIONALITY
-    The functionality that best describes this cmdlet # To do later
+    Strong, simple password generation
 #>
 
 [CmdletBinding(DefaultParameterSetName="-medium")]
@@ -37,7 +37,7 @@ param (
     [ValidateNotNullOrEmpty]
     [string]
     $Delimiter,
-    [Parameter(Mandatory=$false,Position=2,ParameterSetName="Count")]
+    [Parameter(Mandatory=$false,Position=2,ParameterSetName="Count")] # Number of passwords that the script will generate. Default is 3
     [int]
     $Count,
     [Parameter(Mandatory=$false,Position=3,ParameterSetName="-short")] # Selects short words (1-4 chars)
@@ -113,10 +113,6 @@ function Add-Delimiter{
     $sanitized
 }
 
-function Get-XPasswords{  # Helper function to get passwords based on the length of each word and also to get a certain number of passowrds
-
-}
-
 
 function Get-RandomPassword{
     [CmdletBinding(DefaultParameterSetName="-medium")]
@@ -153,24 +149,64 @@ function Get-RandomPassword{
     if ($short -eq $true -and $medium -eq $true -and $long -eq $true){
         throw "Too many switches were given"
     }
+    if ($Count -gt 32){
+        throw "Hold your horse, you're asking for too many passwords. Limit is 32, you specified $Count"
+    }
+    if ($Words -gt 512){
+        throw "The limit for the amount of words in a password has been set to 512. You asked for $Words"
+    }
 
 
     try{
-        Send-YellowText -message "Importing dictionnaries"
-        $longpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
-        $mediumpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
-        $shortpassword = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
+        Send-YellowText -message "Importing dictionnary"
+        if ($short -eq $true){
+            $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
+        }
+        elseif ($medium -eq $true){
+            $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
+        }
+        elseif ($long -eq $true){
+            $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+        }
     }
     catch [ItemNotFoundException]{
-        Send-RedText("The required dictionnary files are not present. Please make sure the required files are in the ressources folder.")
+        Send-RedText -message  "The required dictionnary files are not present. Please make sure the required files are in the ressources folder."
     }
     catch{
         Send-ErrorMessage -Message "An error occured importing the dictionaries! See below for more information:"
     }
 
-    if ($short -eq $true){
+
+
+    1..$Count | ForEach-Object{ # Trying to write a function to get rid of the short, med and long if statements below
+        try{
+            $random_words = Get-Random -Count $Words -InputObject $dictionnary
+        }
+        catch{
+            Send-ErrorMessage -Message "An error occured getting random words from the dictionnary"
+        }
+        try{
+            $random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
+        }
+        catch{
+            Send-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
+        }
+        try{
+            Add-Delimiter -random_words $random_words -Delimiter $Delimiter
+        }
+        catch{
+            Send-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
+        }
+    }
+
+
+
+
+
+    if ($short -eq $true){ # Need to get rid of this reptition and make a function for all 3 switches
         try{
             $random_words = Get-Random -Count $Words -InputObject $shortpassword
+            $random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
             Add-Delimiter -random_words $random_words -Delimiter $Delimiter
         }
         catch{
