@@ -99,7 +99,7 @@ catch{
 1..$Count | ForEach-Object{ # Trying to write a function to get rid of the short, med and long if statements below
 
     try{
-        [string]$random_words = Get-Random -Count $Words -InputObject $dictionnary
+        $random_words = Get-Random -Count $Words -InputObject $dictionnary
     }
     catch{
         Write-ErrorMessage -Message "An error occured getting random words from the dictionnary"
