@@ -41,14 +41,15 @@ param (
     $Count = 3,
     [Parameter(ParameterSetName="short")] # Selects short words (1-4 chars)
     [switch]
-    $short = $false,
+    $short,
     [Parameter(ParameterSetName="medium")] # Selects medium words (5-8 chars)
     [switch]
-    $medium = $true,
+    $medium,
     [Parameter(ParameterSetName="long")] # Selects long words (9+ chars)
     [switch]
-    $long = $false
+    $long
 )
+
 
 
 Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | foreach-object -process { # Import the functions in the functions folder
