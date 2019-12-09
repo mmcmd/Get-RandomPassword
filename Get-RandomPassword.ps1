@@ -98,6 +98,7 @@ catch{
     try{
         Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
         Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
+        Remove-Variable -Name "random_words"
     }
     catch{
         Write-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
