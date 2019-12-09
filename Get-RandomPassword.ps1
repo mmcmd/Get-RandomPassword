@@ -23,7 +23,7 @@
 .PARAMETER long
     Specifies to take from the list of long words (9+ characters long)
 .NOTES
-    General notes # To do later
+    Strong, simple password generation
 .FUNCTIONALITY
     Strong, simple password generation
 #>
@@ -75,6 +75,7 @@ if ($short -eq $true -and $medium -eq $true -and $long -eq $true){
 
 
 try{
+    Write-Verbose "Importing dictionnaries"
     if ($short -eq $true){
         $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
     }
@@ -96,9 +97,9 @@ catch{
 
 
 
-1..$Count | ForEach-Object{ # Trying to write a function to get rid of the short, med and long if statements below
-
+1..$Count | ForEach-Object{
     try{
+        Write-Verbose "Getting random words from the dictionnary. Currently at iteration number $_"
         $random_words = Get-Random -Count $Words -InputObject $dictionnary
     }
     catch{
@@ -107,6 +108,7 @@ catch{
     }
 
     try{
+        Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
         [string]$random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
     }
     catch{
@@ -114,6 +116,7 @@ catch{
     }
 
     try{
+        Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
         Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
     }
     catch{
