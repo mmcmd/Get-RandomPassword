@@ -53,7 +53,7 @@ param (
 $ErrorActionPreference = "Stop"
 
 
-Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | foreach-object -process { # Import the functions in the functions folder
+Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
     write-verbose "Loaded $($_.fullname)"
     . $_.FullName
 }
