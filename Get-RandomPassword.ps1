@@ -89,7 +89,7 @@ catch{
 
     try{
         Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
-        [string]$random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
+        $random_words = [string]($random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } }) # Randomly capitalizes a word
     }
     catch{
         Write-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
@@ -98,7 +98,6 @@ catch{
     try{
         Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
         Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
-        Remove-Variable -Name "random_words"
     }
     catch{
         Write-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
