@@ -60,14 +60,10 @@ Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | foreach-object -process { # 
 
 try{
     Write-Verbose "Importing dictionnaries"
-    if ($short -eq $true){
-        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
-    }
-    elseif ($medium -eq $true){
-        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
-    }
-    elseif ($long -eq $true){
-        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+    switch ($PSCmdlet.ParameterSetName) {
+        short { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt" }
+        medium { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt" }
+        long { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt" }
     }
 }
 catch [ItemNotFoundException]{
