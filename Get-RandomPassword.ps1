@@ -50,29 +50,13 @@ param (
     $long
 )
 
+$ErrorActionPreference = "Stop"
 
 
 Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | foreach-object -process { # Import the functions in the functions folder
     write-verbose "Loaded $($_.fullname)"
     . $_.FullName
 }
-
-
-$ErrorActionPreference = "Stop"
-
-if ($medium -eq $true -and $long -eq $true){
-    throw "Too many switches were given"
-}
-if ($medium -eq $true -and $short -eq $true){
-    throw "Too many switches were given"
-}
-if ($short -eq $true -and $long -eq $true){
-    throw "Too many switches were given"
-}
-if ($short -eq $true -and $medium -eq $true -and $long -eq $true){
-    throw "Too many switches were given"
-}
-
 
 try{
     Write-Verbose "Importing dictionnaries"
