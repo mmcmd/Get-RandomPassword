@@ -12,16 +12,16 @@ Words provided by https://github.com/first20hours/google-10000-english
 ## How to use it
 Running `Get-Help .\Get-RandomPassword` will provide some details and examples, but here's a description of each parameter and what they do
 
-Parameters | Functionnality
------------|-------
-Words | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
-Delimiter | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
-Count | Number of passwords you want generated. Default is 3.
-Short | Generates a password containing short words (1-4 characters long).
-Medium | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
-Long | Generates a password containing long words (9+ characters long)
-NoCapitalization | Specifies that all words will be in lowercase
-DoNotCopyToClipboard | Will not copy a random password to your clipboard
+Parameters | Type | Functionnality
+-----------|------|---------------
+Words | Integer | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
+Delimiter | Integer | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
+Count | Integer | Number of passwords you want generated. Default is 3.
+Short | Switch | Generates a password containing short words (1-4 characters long).
+Medium | Switch | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
+Long | Switch | Generates a password containing long words (9+ characters long)
+NoCapitalization | Switch | Specifies that all words will be in lowercase
+DoNotCopyToClipboard | Switch | Will not copy a random password to your clipboard
 
 **Please note that only one word length can be specified**
 
