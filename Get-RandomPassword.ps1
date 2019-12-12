@@ -22,6 +22,10 @@
     Specifies to take from the list of medium words (5-8 characters long) (default length if no length is specified)
 .PARAMETER long
     Specifies to take from the list of long words (9+ characters long)
+.PARAMETER NoCapitalization
+    Specifies that all words will be in lowercase
+.PARAMETER DoNotCopyToClipboard
+    Will not copy a random password to your clipboard
 .NOTES
     Strong, simple password generation
 .FUNCTIONALITY
