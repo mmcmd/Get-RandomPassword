@@ -47,7 +47,10 @@ param (
     $medium,
     [Parameter(ParameterSetName="long")] # Selects long words (9+ chars)
     [switch]
-    $long
+    $long,
+    [Parameter()]
+    [switch]
+    $NoCapitalization
 )
 
 $ErrorActionPreference = "Stop"
@@ -81,19 +84,24 @@ $Collection = New-Object System.Collections.Generic.List[string]
 1..$Count | ForEach-Object{
     try{
         Write-Verbose "Getting random words from the dictionnary. Currently at iteration number $_"
-        $random_words = Get-Random -Count $Words -InputObject $dictionnary
+        $random_words = [string](Get-Random -Count $Words -InputObject $dictionnary)
     }
     catch{
         Write-ErrorMessage -Message "An error occured getting random words from the dictionnary"
         exit
     }
 
-    try{
-        Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
-        $random_words = [string]($random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } }) # Randomly capitalizes a word
+    if ($NoCapitalization -eq $true){
+        try{
+            Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
+            $random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
+        }
+        catch{
+            Write-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
+        }
     }
-    catch{
-        Write-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
+    else{
+        Write-Verbose "Capitalization has been toggled off"
     }
 
     try{
@@ -108,6 +116,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
 
 
 try{
+    Write-Verbose "Getting a random passwword from the list"
     Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
     Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
 }
