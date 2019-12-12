@@ -110,7 +110,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
     try{
         Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
         . Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
-        $Collection += $sanitized
+        $Collection.Add($sanitized)
     }
     catch{
         Write-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
