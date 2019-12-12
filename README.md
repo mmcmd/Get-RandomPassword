@@ -14,14 +14,14 @@ Running `Get-Help .\Get-RandomPassword` will provide some details and examples, 
 
 Parameters | Functionnality
 -----------|-------
-Words | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
-Delimiter | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
-Count | Number of passwords you want generated. Default is 3.
-Short | Generates a password containing short words (1-4 characters long).
-Medium | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
-Long | Generates a password containing long words (9+ characters long)
-NoCapitalization | Specifies that all words will be in lowercase
-DoNotCopyToClipboard | Will not copy a random password to your clipboard
+Words (string) | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
+Delimiter (integer) | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
+Count (integer) | Number of passwords you want generated. Default is 3.
+Short (switch) | Generates a password containing short words (1-4 characters long).
+Medium (switch) | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
+Long (switch) | Generates a password containing long words (9+ characters long)
+NoCapitalization (switch) | Specifies that all words will be in lowercase
+DoNotCopyToClipboard (switch) | Will not copy a random password to your clipboard
 
 **Please note that only one word length can be specified**
 
