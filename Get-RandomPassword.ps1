@@ -19,7 +19,7 @@
 .PARAMETER short
     Specifies to take from the list of short words (1-4 characters long)
 .PARAMETER medium
-    Specifies to take from the list of medium words (5-8 characters long) (default if no list is specified)
+    Specifies to take from the list of medium words (5-8 characters long) (default length if no length is specified)
 .PARAMETER long
     Specifies to take from the list of long words (9+ characters long)
 .NOTES
@@ -76,6 +76,7 @@ catch{
 }
 
 
+$Collection = New-Object System.Collections.Generic.List[string]
 
 1..$Count | ForEach-Object{
     try{
@@ -97,9 +98,19 @@ catch{
 
     try{
         Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
-        Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
+        . Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
+        $Collection += $sanitized
     }
     catch{
         Write-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
     }
+}
+
+
+try{
+    Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
+    Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
+}
+catch{
+    Write-ErrorMessage -Message "An error occured getting a random password"
 }
