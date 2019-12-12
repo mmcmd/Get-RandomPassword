@@ -91,7 +91,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
 1..$Count | ForEach-Object{
     try{
         Write-Verbose "Getting random words from the dictionnary. Currently at iteration number $_"
-        $random_words = [string](Get-Random -Count $Words -InputObject $dictionnary)
+        $random_words = (Get-Random -Count $Words -InputObject $dictionnary)
     }
     catch{
         Write-ErrorMessage -Message "An error occured getting random words from the dictionnary"
@@ -101,7 +101,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
     if ($NoCapitalization -eq $false){
         try{
             Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
-            $random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
+            $random_words = [string]($random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } }) # Randomly capitalizes a word
         }
         catch{
             Write-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
@@ -109,6 +109,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
     }
     else{
         Write-Verbose "Capitalization has been toggled off"
+        $random_words = [string]$random_words
     }
 
     try{
