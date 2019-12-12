@@ -20,6 +20,8 @@ Count | Number of passwords you want generated. Default is 3.
 Short | Generates a password containing short words (1-4 characters long).
 Medium | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
 Long | Generates a password containing long words (9+ characters long)
+NoCapitalization | Specifies that all words will be in lowercase
+DoNotCopyToClipboard | Will not copy a random password to your clipboard
 
 **Please note that only one word length can be specified**
 
