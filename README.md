@@ -14,7 +14,7 @@ Running `Get-Help .\Get-RandomPassword` will provide some details and examples, 
 
 Parameters | Type | Functionnality
 -----------|------|---------------
-Words | String | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
+Words | Integer | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
 Delimiter | Integer | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
 Count | Integer | Number of passwords you want generated. Default is 3.
 Short | Switch | Generates a password containing short words (1-4 characters long).
