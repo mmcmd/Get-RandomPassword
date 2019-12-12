@@ -50,7 +50,10 @@ param (
     $long,
     [Parameter()]
     [switch]
-    $NoCapitalization
+    $NoCapitalization,
+    [Parameter()]
+    [switch]
+    $DoNotCopyToClipboard
 )
 
 $ErrorActionPreference = "Stop"
@@ -91,7 +94,7 @@ $Collection = New-Object System.Collections.Generic.List[string]
         exit
     }
 
-    if ($NoCapitalization -eq $true){
+    if ($NoCapitalization -eq $false){
         try{
             Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
             $random_words = $random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } } # Randomly capitalizes a word
@@ -114,12 +117,13 @@ $Collection = New-Object System.Collections.Generic.List[string]
     }
 }
 
-
-try{
-    Write-Verbose "Getting a random passwword from the list"
-    Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
-    Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
-}
-catch{
-    Write-ErrorMessage -Message "An error occured getting a random password"
+if ($DoNotCopyToClipboard -eq $false){
+    try{
+        Write-Verbose "Getting a random passwword from the list"
+        Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
+        Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
+    }
+    catch{
+        Write-ErrorMessage -Message "An error occured getting a random password"
+    }
 }
