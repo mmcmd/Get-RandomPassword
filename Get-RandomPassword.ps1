@@ -57,23 +57,53 @@ param (
     $NoCapitalization,
     [Parameter()]
     [switch]
-    $DoNotCopyToClipboard
+    $DoNotCopyToClipboard,
+    [Parameter()]
+    [switch]
+    $French
 )
 
 $ErrorActionPreference = "Stop"
 
 
 Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
-    write-verbose "Loaded $($_.fullname)"
+    Write-Verbose "Loaded $($_.fullname)"
     . $_.FullName
 }
 
 try{
     Write-Verbose "Importing dictionnaries"
     switch ($PSCmdlet.ParameterSetName) {
-        short { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt" }
-        medium { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt" }
-        long { $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt" }
+        short {
+            if ($French -ne $true){ 
+                Write-Verbose -Message "Short english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
+            }
+            else{
+                Write-Verbose -Message "Short french words selected. Getting content from $PSScriptRoot\ressources\french-short-words.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-short-words.txt" -Encoding UTF8
+            }
+        }
+        medium {
+            if ($French -ne $true){
+                Write-Verbose -Message "Medium english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
+            }
+            else{
+                Write-Verbose -Message "Medium french words selected. Getting content from $PSScriptRoot\ressources\french-medium-words.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-medium-words.txt" -Encoding UTF8
+            }
+        }
+        long {
+            if ($French -ne $true){
+                Write-Verbose -Message "Long english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+            }
+            else{
+                Write-Verbose -Message "Long french words selected. Getting content from $PSScriptRoot\ressources\french-long-words.txt"
+                $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-long-words.txt" -Encoding UTF8
+            }
+        }
     }
 }
 catch [ItemNotFoundException]{
