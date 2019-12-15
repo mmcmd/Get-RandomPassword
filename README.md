@@ -22,6 +22,7 @@ Medium | Switch | Generates a password containing medium words (5-8 characters l
 Long | Switch | Generates a password containing long words (9+ characters long)
 NoCapitalization | Switch | Specifies that all words will be in lowercase
 DoNotCopyToClipboard | Switch | Will not copy a random password to your clipboard
+French | Switch | Generates passwords using common french words. Please note that these words have not been filtered and may be inappropriate
 
 **Please note that only one word length can be specified**
 
@@ -64,5 +65,16 @@ rats-leon-POEM-ks-OVEN
 DAM-bull-BABY-ICT-hey
 news-teen-ace-PHIL-ba
 bank-SEO-NAM-PREV-NM
+```
+
+```powershell
+# This example generates 3 passwords containing 3 french words
+# The -Long switch was specified, therefore it uses words that are 9 characters long or higher
+# The -DoNotCopyToClipboard was specified, therefore it wasn't copied to the clipboard
+# The -NoCapitalization switch was specified, therefore no capitalization was added
+.\Get-RandomPassword.ps1 -French -Long -DoNotCopyToClipboard -NoCapitalization   
+recommande-prochains-publicités
+remplacés-d'exportation-extérieur
+résolument-président-réductions
 ```
 
