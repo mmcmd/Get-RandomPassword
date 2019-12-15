@@ -6,6 +6,7 @@ Generates random passwords using random common words
 Based on https://xkcd.com/936/ and https://xkpasswd.net/s/
 
 English words provided by https://github.com/first20hours/google-10000-english
+
 French words provided by https://github.com/oprogramador/most-common-words-by-language (split into three files by me)
 
 
