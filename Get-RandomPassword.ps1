@@ -26,6 +26,8 @@
     Specifies that all words will be in lowercase
 .PARAMETER DoNotCopyToClipboard
     Will not copy a random password to your clipboard
+.PARAMETER French
+    Generates a password using french words
 .NOTES
     Strong, simple password generation
 .FUNCTIONALITY
