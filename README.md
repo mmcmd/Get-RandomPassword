@@ -1,4 +1,6 @@
 # Get-RandomPassword
+[![MIT License](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 Generates random passwords using random common words
 
 [Test your password here!](https://howsecureismypassword.net/)
