@@ -32,7 +32,7 @@ function Get-RandomPassword{
     .PARAMETER Language
         Generates a password using the selected language (default is english)
     .PARAMETER ShowLanguages
-        Shows a list of available languages
+        Displays a list of available languages
     .NOTES
         Strong, simple password generation
     .FUNCTIONALITY
