@@ -97,7 +97,7 @@ function Get-RandomPassword{
         switch ($PSCmdlet.ParameterSetName) {
             short {
                 try{
-                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    Write-Verbose "$Language selected with short words. Retrieving corresponding words"
                     $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
                 }
                 catch{
@@ -107,7 +107,7 @@ function Get-RandomPassword{
             }
             medium {
                 try{
-                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    Write-Verbose "$Language selected with medium words. Retrieving corresponding words"
                     $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
                 }
                 catch{
@@ -117,7 +117,7 @@ function Get-RandomPassword{
             }
             long {
                 try{
-                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    Write-Verbose "$Language selected with long words. Retrieving corresponding words"
                     $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
                 }
                 catch{
