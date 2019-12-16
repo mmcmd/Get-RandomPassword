@@ -92,8 +92,7 @@ function Get-RandomPassword{
     if ($PSCmdlet.ParameterSetName -eq "ShowLanguages"){
         Write-Host "Available languages: " -NoNewline -ForegroundColor Green -BackgroundColor Black
         Add-Delimiter -Source $Available_languages -Delimiter ", "
-        Pause
-        exit
+        break
     }
 
 
