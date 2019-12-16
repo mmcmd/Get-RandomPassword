@@ -96,51 +96,33 @@ function Get-RandomPassword{
         Write-Verbose "Importing dictionnaries"
         switch ($PSCmdlet.ParameterSetName) {
             short {
-                if ($null -eq $Language){
-                    Write-Verbose "Short english words selected"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\english\english-short-words.txt" -Encoding utf8
+                try{
+                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
                 }
-                else{
-                    try{
-                        Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
-                        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
-                    }
-                    catch{
-                        Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
-                        throw
-                    }
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
             medium {
-                if ($null -eq $Language){
-                    Write-Verbose "Medium english words selected"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\english\english-medium-words.txt" -Encoding utf8
+                try{
+                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
                 }
-                else{
-                    try{
-                        Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
-                        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
-                    }
-                    catch{
-                        Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
-                        throw
-                    }
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
             long {
-                if ($null -eq $Language){
-                    Write-Verbose "Long english words selected"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\english\english-long-words.txt" -Encoding utf8
+                try{
+                    Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
                 }
-                else{
-                    try{
-                        Write-Verbose "$Language selected with $($PSCmdlet.ParameterSetName) words. Retrieving corresponding words"
-                        $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
-                    }
-                    catch{
-                        Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
-                        throw
-                    }
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
         }
