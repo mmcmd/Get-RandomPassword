@@ -11,6 +11,8 @@ function Get-RandomPassword{
         Get-RandomPassword -Words 3
     .EXAMPLE
         Get-RandomPassword -Words 5 -Delimiter "-"
+    .EXAMPLE
+        Get-RandomPassword -Words 7 -Delimiter "%" -Count 10 -Long -NoCapitalization -DoNotCopyToClipboard -Language arabic
     .PARAMETER Words
         Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
     .PARAMETER Delimiter
@@ -29,6 +31,8 @@ function Get-RandomPassword{
         Will not copy a random password to your clipboard
     .PARAMETER Language
         Generates a password using the selected language (default is english)
+    .PARAMETER ShowLanguages
+        Shows a list of available languages
     .NOTES
         Strong, simple password generation
     .FUNCTIONALITY
@@ -64,7 +68,10 @@ function Get-RandomPassword{
         $DoNotCopyToClipboard,
         [Parameter()]
         [string]
-        $Language = "english"
+        $Language = "english",
+        [Parameter(ParameterSetName="ShowLanguages")]
+        [switch]
+        $ShowLanguages
     )
 
     $ErrorActionPreference = "Stop"
@@ -79,6 +86,13 @@ function Get-RandomPassword{
     Get-ChildItem -Directory -Path $PSScriptRoot\ressources | ForEach-Object {
         $Available_languages.Add($_)
         Write-Verbose "$($Available_languages.Count) languages found"
+    }
+
+    if ($PSCmdlet.ParameterSetName -eq "ShowLanguages"){
+        Write-Host "Available languages: " -NoNewline -ForegroundColor Green -BackgroundColor Black
+        Add-Delimiter -Source $Available_languages -Delimiter ", "
+        Pause
+        exit
     }
 
 
