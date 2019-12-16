@@ -114,37 +114,37 @@ function Get-RandomPassword{
             short {
                 try{
                     Write-Verbose "$Language selected with short words. Retrieving corresponding words"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
+                    $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
                 }
                 catch{
-                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
                     throw
                 }
             }
             medium {
                 try{
                     Write-Verbose "$Language selected with medium words. Retrieving corresponding words"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
+                    $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
                 }
                 catch{
-                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
                     throw
                 }
             }
             long {
                 try{
                     Write-Verbose "$Language selected with long words. Retrieving corresponding words"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
+                    $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
                 }
                 catch{
-                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
                     throw
                 }
             }
         }
     }
     catch [System.Management.Automation.ItemNotFoundException]{
-        Write-RedText -message  "The language selected was not found in the ressources folder or the $($PSCmdlet.ParameterSetName) dictionnary file for that specific language is missing."
+        Write-RedText -message  "The language selected was not found in the ressources folder or the $($PSCmdlet.ParameterSetName) dictionary file for that specific language is missing."
         throw
     }
     catch{
@@ -157,11 +157,11 @@ function Get-RandomPassword{
 
     1..$Count | ForEach-Object{
         try{
-            Write-Verbose "Getting random words from the dictionnary. Currently at iteration number $_"
-            $random_words = (Get-Random -Count $Words -InputObject $dictionnary)
+            Write-Verbose "Getting random words from the dictionary. Currently at iteration number $_"
+            $random_words = (Get-Random -Count $Words -InputObject $dictionary)
         }
         catch{
-            Write-ErrorMessage -Message "An error occured getting random words from the dictionnary"
+            Write-ErrorMessage -Message "An error occured getting random words from the dictionary"
             throw
         }
 
