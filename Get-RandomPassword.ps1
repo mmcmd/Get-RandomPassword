@@ -85,8 +85,9 @@ function Get-RandomPassword{
     $Available_languages = New-Object System.Collections.Generic.List[string]
     Get-ChildItem -Directory -Path $PSScriptRoot\ressources | ForEach-Object {
         $Available_languages.Add($_)
-        Write-Verbose "$($Available_languages.Count) languages found"
     }
+    Write-Verbose "$($Available_languages.Count) languages found"
+
 
     if ($PSCmdlet.ParameterSetName -eq "ShowLanguages"){
         Write-Host "Available languages: " -NoNewline -ForegroundColor Green -BackgroundColor Black
