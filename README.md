@@ -26,7 +26,7 @@ Medium | Switch | Generates a password containing medium words (5-8 characters l
 Long | Switch | Generates a password containing long words (9+ characters long)
 NoCapitalization | Switch | Specifies that all words will be in lowercase
 DoNotCopyToClipboard | Switch | Will not copy a random password to your clipboard
-Languages | String | Generates passwords using common words of your language of choice. Please note that these words have not been filtered and may be inappropriate
+Language | String | Generates passwords using common words of your language of choice. Please note that these words have not been filtered and may not be appropriate
 ShowLanguages | Switch | Displays a list of available languages
 
 **Please note that only one word length can be specified**
