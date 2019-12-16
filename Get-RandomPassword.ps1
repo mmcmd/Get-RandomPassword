@@ -36,6 +36,7 @@ function Get-RandomPassword{
     #>
 
     [CmdletBinding(DefaultParameterSetName="medium")]
+    [Alias('gr')]
     param (
         [Parameter()] # Number of words that the password will contain. Default is 3
         [int]
