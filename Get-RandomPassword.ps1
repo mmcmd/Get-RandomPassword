@@ -11,6 +11,8 @@ function Get-RandomPassword{
         Get-RandomPassword -Words 3
     .EXAMPLE
         Get-RandomPassword -Words 5 -Delimiter "-"
+    .EXAMPLE
+        Get-RandomPassword -Words 7 -Delimiter "%" -Count 10 -Long -NoCapitalization -DoNotCopyToClipboard -Language arabic
     .PARAMETER Words
         Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
     .PARAMETER Delimiter
@@ -27,8 +29,10 @@ function Get-RandomPassword{
         Specifies that all words will be in lowercase
     .PARAMETER DoNotCopyToClipboard
         Will not copy a random password to your clipboard
-    .PARAMETER French
-        Generates a password using french words
+    .PARAMETER Language
+        Generates a password using the selected language (default is english)
+    .PARAMETER ShowLanguages
+        Displays a list of available languages
     .NOTES
         Strong, simple password generation
     .FUNCTIONALITY
@@ -63,15 +67,43 @@ function Get-RandomPassword{
         [switch]
         $DoNotCopyToClipboard,
         [Parameter()]
+        [string]
+        $Language = "english",
+        [Parameter(ParameterSetName="ShowLanguages")]
         [switch]
-        $French
+        $ShowLanguages
     )
 
     $ErrorActionPreference = "Stop"
 
+    Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
+        Write-Verbose "Loaded function $($_.fullname)"
+        . $_.FullName
+    }
+
+
+    $Available_languages = New-Object System.Collections.Generic.List[string]
+    Get-ChildItem -Directory -Path $PSScriptRoot\ressources | ForEach-Object {
+        $Available_languages.Add($_)
+        Write-Verbose "$($Available_languages.Count) languages found"
+    }
+
+    if ($PSCmdlet.ParameterSetName -eq "ShowLanguages"){
+        Write-Host "Available languages: " -NoNewline -ForegroundColor Green -BackgroundColor Black
+        Add-Delimiter -Source $Available_languages -Delimiter ", "
+        Pause
+        exit
+    }
+
+
+    if ($Language -notin $Available_languages){
+        Add-Delimiter -Source $Available_languages -Delimiter ", "
+        throw "The selected language $Language does not exist. See the list above for a list of available languages"
+    }
+
 
     Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
-        Write-Verbose "Loaded $($_.fullname)"
+        Write-Verbose "Loaded function $($_.fullname)"
         . $_.FullName
     }
 
@@ -79,44 +111,44 @@ function Get-RandomPassword{
         Write-Verbose "Importing dictionnaries"
         switch ($PSCmdlet.ParameterSetName) {
             short {
-                if ($French -ne $true){ 
-                    Write-Verbose -Message "Short english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-short.txt"
+                try{
+                    Write-Verbose "$Language selected with short words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
                 }
-                else{
-                    Write-Verbose -Message "Short french words selected. Getting content from $PSScriptRoot\ressources\french-short-words.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-short-words.txt" -Encoding UTF8
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
             medium {
-                if ($French -ne $true){
-                    Write-Verbose -Message "Medium english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-medium.txt"
+                try{
+                    Write-Verbose "$Language selected with medium words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
                 }
-                else{
-                    Write-Verbose -Message "Medium french words selected. Getting content from $PSScriptRoot\ressources\french-medium-words.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-medium-words.txt" -Encoding UTF8
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
             long {
-                if ($French -ne $true){
-                    Write-Verbose -Message "Long english words selected. Getting content from $PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\google-10000-english-usa-no-swears-long.txt"
+                try{
+                    Write-Verbose "$Language selected with long words. Retrieving corresponding words"
+                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
                 }
-                else{
-                    Write-Verbose -Message "Long french words selected. Getting content from $PSScriptRoot\ressources\french-long-words.txt"
-                    $dictionnary = Get-Content -Path "$PSScriptRoot\ressources\french-long-words.txt" -Encoding UTF8
+                catch{
+                    Write-ErrorMessage "An error occured getting the dictionnary file for $language $($PSCmdlet.ParameterSetName)"
+                    throw
                 }
             }
         }
     }
-    catch [ItemNotFoundException]{
-        Write-RedText -message  "The required dictionnary files are not present. Please make sure the required files are in the ressources folder."
-        exit
+    catch [System.Management.Automation.ItemNotFoundException]{
+        Write-RedText -message  "The language selected was not found in the ressources folder or the $($PSCmdlet.ParameterSetName) dictionnary file for that specific language is missing."
+        throw
     }
     catch{
-        Write-ErrorMessage -Message "An error occured importing the dictionaries! See below for more information:"
-        exit
+        Write-ErrorMessage -Message "An error occured importing the dictionnaries! See below for more information:"
+        throw
     }
 
 
@@ -129,7 +161,7 @@ function Get-RandomPassword{
         }
         catch{
             Write-ErrorMessage -Message "An error occured getting random words from the dictionnary"
-            exit
+            throw
         }
 
         if ($NoCapitalization -eq $false){
