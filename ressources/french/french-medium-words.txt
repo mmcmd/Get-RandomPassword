@@ -3607,7 +3607,6 @@ prudents
 récolte
 réduites
 saisons
-sexuelle
 sondage
 strict
 tenues
@@ -4677,7 +4676,6 @@ plaire
 pressé
 reliés
 révolte
-sexuel
 stocker
 tactique
 union

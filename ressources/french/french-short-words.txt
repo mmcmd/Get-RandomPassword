@@ -521,7 +521,6 @@ inc
 golf
 prl
 mac
-sexe
 fiat
 vers
 posé
@@ -869,7 +868,6 @@ pis
 sien
 rue
 poil
-sexy
 time
 asbl
 hier
