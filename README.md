@@ -33,14 +33,12 @@ ShowLanguages | Switch | Displays a list of available languages
 
 ### Installation
 
-Clone this repository in your Powershell module path ($env:PSModulePath) and then you'll be able to import the module by running the following in your Powershell terminal:
+[Now available on the PSGallery!](https://www.powershellgallery.com/packages/Get-RandomPassword/1.1)
+
 ```powershell
-Import-Module Get-RandomPassword
+PS > Install-Module -Name Get-RandomPassword
+PS > Import-Module Get-RandomPassword
 ```
-
-You'll then have access to the cmdlet `Get-RandomPassword` which you can invoke by following the following examples
-
-
 
 ## Examples
 
