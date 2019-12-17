@@ -1,4 +1,6 @@
 # Get-RandomPassword
+[![MIT License](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 Generates random passwords using random common words
 
 [Test your password here!](https://howsecureismypassword.net/)
@@ -24,7 +26,7 @@ Medium | Switch | Generates a password containing medium words (5-8 characters l
 Long | Switch | Generates a password containing long words (9+ characters long)
 NoCapitalization | Switch | Specifies that all words will be in lowercase
 DoNotCopyToClipboard | Switch | Will not copy a random password to your clipboard
-Languages | String | Generates passwords using common words of your language of choice. Please note that these words have not been filtered and may be inappropriate
+Language | String | Generates passwords using common words of your language of choice. Please note that these words have not been filtered and may not be appropriate (the only exception to this is the english language)
 ShowLanguages | Switch | Displays a list of available languages
 
 **Please note that only one word length can be specified**
