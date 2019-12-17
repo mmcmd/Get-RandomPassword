@@ -199,4 +199,4 @@ function Get-RandomPassword{
         }
     }
 }
-Export-ModuleMember -Function Get-RandomPassword
+Export-ModuleMember -Function Get-RandomPassword -Alias "gr"
