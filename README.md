@@ -33,7 +33,7 @@ ShowLanguages | Switch | Displays a list of available languages
 
 ### Installation
 
-[Now available on the PSGallery!](https://www.powershellgallery.com/packages/Get-RandomPassword/1.1)
+[Now available on the PSGallery!](https://www.powershellgallery.com/packages/Get-RandomPassword/1.1.1)
 
 ```powershell
 PS > Install-Module -Name Get-RandomPassword
