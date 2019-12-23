@@ -101,12 +101,6 @@ function Get-RandomPassword{
         throw "The selected language $Language does not exist. See the list above for a list of available languages"
     }
 
-
-    Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
-        Write-Verbose "Loaded function $($_.fullname)"
-        . $_.FullName
-    }
-
     try{
         Write-Verbose "Importing dictionnaries"
         switch ($PSCmdlet.ParameterSetName) {
