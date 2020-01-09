@@ -1,5 +1,6 @@
 # Get-RandomPassword
 [![MIT License](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![CodeFactor](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/badge/master)](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/overview/master)
 
 Generates random passwords using random common words
 
