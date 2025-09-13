@@ -1,4 +1,4 @@
-function Get-RandomPassword{
+function Get-RandomPassword {
     <#
     .SYNOPSIS
         Generates a random password using random common words
@@ -39,7 +39,7 @@ function Get-RandomPassword{
         Strong, simple password generation
     #>
 
-    [CmdletBinding(DefaultParameterSetName="medium")]
+    [CmdletBinding(DefaultParameterSetName = "medium")]
     [Alias('gr')]
     param (
         [Parameter()] # Number of words that the password will contain. Default is 3
@@ -51,13 +51,13 @@ function Get-RandomPassword{
         [Parameter()] # Number of passwords that the script will generate. Default is 3
         [int]
         $Count = 3,
-        [Parameter(ParameterSetName="short")] # Selects short words (1-4 chars)
+        [Parameter(ParameterSetName = "short")] # Selects short words (1-4 chars)
         [switch]
         $short,
-        [Parameter(ParameterSetName="medium")] # Selects medium words (5-8 chars)
+        [Parameter(ParameterSetName = "medium")] # Selects medium words (5-8 chars)
         [switch]
         $medium,
-        [Parameter(ParameterSetName="long")] # Selects long words (9+ chars)
+        [Parameter(ParameterSetName = "long")] # Selects long words (9+ chars)
         [switch]
         $long,
         [Parameter()]
@@ -69,128 +69,131 @@ function Get-RandomPassword{
         [Parameter()]
         [string]
         $Language = "english",
-        [Parameter(ParameterSetName="ShowLanguages")]
+        [Parameter(ParameterSetName = "ShowLanguages")]
         [switch]
         $ShowLanguages
     )
 
     $ErrorActionPreference = "Stop"
 
-    Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
-        Write-Verbose "Loaded function $($_.fullname)"
-        . $_.FullName
+    Get-ChildItem -Path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
+        try {
+            . $_.FullName
+            Write-Verbose "Loaded function $($_.fullname)"
+        }
+        catch {
+            throw "An error occured importing the function $($_.FullName) located in the functions folder. $($_.Exception.Message)"
+        }
     }
 
 
     $Available_languages = New-Object System.Collections.Generic.List[string]
-    Get-ChildItem -Directory -Path $PSScriptRoot\ressources | ForEach-Object {
+    Get-ChildItem -Path $PSScriptRoot\ressources | Where-Object { $_.PSIsContainer -eq $true } | Select-Object -ExpandProperty BaseName | ForEach-Object {
         $Available_languages.Add($_)
     }
     Write-Verbose "$($Available_languages.Count) languages found"
 
 
-    if ($PSCmdlet.ParameterSetName -eq "ShowLanguages"){
-        Write-Host "Available languages: " -NoNewline -ForegroundColor Green -BackgroundColor Black
+    if ($PSCmdlet.ParameterSetName -eq "ShowLanguages") {
+        Write-Output "Available languages: "
         Add-Delimiter -Source $Available_languages -Delimiter ", "
         break
     }
 
 
-    if ($Language -notin $Available_languages){
-        Add-Delimiter -Source $Available_languages -Delimiter ", "
-        throw "The selected language $Language does not exist. See the list above for a list of available languages"
+    if ($Language -notin $Available_languages) {
+        $Available_languages_list = Add-Delimiter -Source $Available_languages -Delimiter ", "
+        throw "The selected language $Language does not exist. Please choose among the following languages: $Available_languages_list"
     }
 
-    try{
+
+    try {
         Write-Verbose "Importing dictionnaries"
         switch ($PSCmdlet.ParameterSetName) {
             short {
-                try{
+                try {
                     Write-Verbose "$Language selected with short words. Retrieving corresponding words"
                     $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-short-words.txt" -Encoding UTF8
                 }
-                catch{
-                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
-                    throw
+                catch {
+                    throw "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName). $($_.Exception.Message)"
                 }
             }
             medium {
-                try{
+                try {
                     Write-Verbose "$Language selected with medium words. Retrieving corresponding words"
                     $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-medium-words.txt" -Encoding UTF8
                 }
-                catch{
-                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
-                    throw
+                catch {
+                    throw "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName). $($_.Exception.Message)"
                 }
             }
             long {
-                try{
+                try {
                     Write-Verbose "$Language selected with long words. Retrieving corresponding words"
                     $dictionary = Get-Content -Path "$PSScriptRoot\ressources\$language\$language-long-words.txt" -Encoding UTF8
                 }
-                catch{
-                    Write-ErrorMessage "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName)"
-                    throw
+                catch {
+                    throw "An error occured getting the dictionary file for $language $($PSCmdlet.ParameterSetName). $($_.Exception.Message)"
                 }
             }
         }
     }
-    catch [System.Management.Automation.ItemNotFoundException]{
-        Write-RedText -message  "The language selected was not found in the ressources folder or the $($PSCmdlet.ParameterSetName) dictionary file for that specific language is missing."
-        throw
+    catch [System.Management.Automation.ItemNotFoundException] {
+        throw  "The language selected was not found in the ressources folder or the $($PSCmdlet.ParameterSetName) dictionary file for that specific language is missing."
     }
-    catch{
-        Write-ErrorMessage -Message "An error occured importing the dictionnaries! See below for more information:"
-        throw
+    catch {
+        throw "An error occured importing the dictionnaries! See below for more information:"
     }
 
 
     $Collection = New-Object System.Collections.Generic.List[string]
 
-    1..$Count | ForEach-Object{
-        try{
+    1..$Count | ForEach-Object {
+        try {
             Write-Verbose "Getting random words from the dictionary. Currently at iteration number $_"
             $random_words = (Get-Random -Count $Words -InputObject $dictionary)
         }
-        catch{
-            Write-ErrorMessage -Message "An error occured getting random words from the dictionary"
-            throw
+        catch {
+            throw "An error occured getting random words from the dictionary. $($_.Exception.Message)"
         }
 
-        if ($NoCapitalization -eq $false){
-            try{
+        if ($NoCapitalization -eq $false) {
+            try {
                 Write-Verbose "Randomly capitalizing each word. Currently at iteration number $_"
-                $random_words = [string]($random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true,$false); if ($Caps -eq $true) { $_.ToUpper() } else{ $_.ToLower() } }) # Randomly capitalizes a word
+                $random_words = [string]($random_words | ForEach-Object { $Caps = Get-Random -InputObject ($true, $false); if ($Caps -eq $true) { $_.ToUpper() } else { $_.ToLower() } }) # Randomly capitalizes a word
             }
-            catch{
-                Write-ErrorMessage -Message "An error occured with the random capitalization of the passwords"
+            catch {
+                Write-Error -Message "An error occured with the random capitalization of the passwords. $($_.Exception.Message)"
             }
         }
-        else{
+        else {
             Write-Verbose "Capitalization has been toggled off"
             $random_words = [string]$random_words
         }
 
-        try{
+        try {
             Write-Verbose "Adding the delimiter to each word, Currently at iteration number $_"
             . Add-Delimiter -Source $random_words -DelimiterParameter $Delimiter
             $Collection.Add($sanitized)
         }
-        catch{
-            Write-ErrorMessage -Message "An error occured adding a delimiter to the passwords"
+        catch {
+            Write-Error -Message "An error occured adding a delimiter to the passwords. $($_.Exception.Message)"
         }
     }
 
-    if ($DoNotCopyToClipboard -eq $false){
-        try{
+
+    if ($DoNotCopyToClipboard -eq $false) {
+        try {
             Write-Verbose "Getting a random passwword from the list"
             Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
             Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
         }
-        catch{
-            Write-ErrorMessage -Message "An error occured getting a random password"
+        catch {
+            Write-Error -Message "An error occured getting a random password. $($_.Exception.Message)"
         }
     }
 }
+
+
 Export-ModuleMember -Function Get-RandomPassword -Alias "gr"

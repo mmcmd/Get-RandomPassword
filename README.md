@@ -1,17 +1,19 @@
 # Get-RandomPassword
 [![MIT License](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![CodeFactor](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/badge/master)](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/overview/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/badge)](https://www.codefactor.io/repository/github/mmcmd/get-randompassword)
+
 
 Generates random passwords using random common words
 
-[Test your password here!](https://howsecureismypassword.net/)
+[Test your password here!](https://www.security.org/how-secure-is-my-password/)
 
-Based on https://xkcd.com/936/ and https://xkpasswd.net/s/
+Based on https://xkcd.com/936/
 
 English words provided by https://github.com/first20hours/google-10000-english
 
-All the other words are provided by https://github.com/oprogramador/most-common-words-by-language (filtered by me)
+All the other words are provided by https://github.com/oprogramador/most-common-words-by-language 
 
+The English words have been filtered by me, however **the other languages are not filtered**. If you find any NSFW words, I would really appreciate a pull request :)
 
 
 ## How to use it
@@ -30,11 +32,11 @@ DoNotCopyToClipboard | Switch | Will not copy a random password to your clipboar
 Language | String | Generates passwords using common words of your language of choice. Please note that these words have not been filtered and may not be appropriate (the only exception to this is the english language)
 ShowLanguages | Switch | Displays a list of available languages
 
-**Please note that only one word length can be specified**
+**Please note that only one word length can be specified per command (short, medium or long)**
 
 ### Installation
 
-[Now available on the PSGallery!](https://www.powershellgallery.com/packages/Get-RandomPassword/1.1.1)
+[Now available on the PSGallery!](https://www.powershellgallery.com/packages/Get-RandomPassword)
 
 ```powershell
 PS > Install-Module -Name Get-RandomPassword
@@ -45,7 +47,7 @@ PS > Import-Module Get-RandomPassword
 
 ```powershell
 # This example generates 3 passwords containing 3 words each
-Get-RandomPassword
+PS > Get-RandomPassword
 forward-genuine-extract
 floral-piece-RELEASED
 diseases-metadata-EBOOKS
@@ -56,7 +58,7 @@ A random password has been copied to your clipboard!
 # This example generates 3 passwords with 5 words per password.
 # The Sun would die before a computer could crack these passwords
 # It uses the default delimiter "-" (a dash) and a medium dictionnary (5-8 characters long)
-Get-RandomPassword -Word 5
+PS > Get-RandomPassword -Word 5
 ROMANCE-restore-RENEWAL-payday-example
 TEXAS-VISIT-speeches-POSTINGS-CHANNELS
 DERIVED-invalid-korean-skype-union
@@ -66,7 +68,7 @@ A random password has been copied to your clipboard!
 ```powershell
 # This example generates 5 passwords containing 4 words each with the asterisk delimiter
 # The -Long switch was specified, therefore it used words that are over 9 characters long
-Get-RandomPassword -Word 4 -Count 5 -Delimiter * -Long
+PS > Get-RandomPassword -Word 4 -Count 5 -Delimiter * -Long
 DISTRIBUTED*LOCATIONS*PHENTERMINE*DISTINGUISHED
 CONTAINERS*ECOMMERCE*selecting*bandwidth
 microphone*RECEIVING*underground*bookstore
@@ -78,7 +80,7 @@ A random password has been copied to your clipboard!
 ```powershell
 # This example generates 4 passwords with 5 words each
 # The -Short switch was specified, therefore it uses words that are in between 1 and 4 characters long
-Get-RandomPassword -word 5 -count 4 -short
+PS > Get-RandomPassword -word 5 -count 4 -short
 zinc-MAC-ho-slip-bids
 DVDS-lost-AV-BUSY-nbc
 aims-ugly-PDAS-AUG-BIN
@@ -91,7 +93,7 @@ A random password has been copied to your clipboard!
 # The -Long switch was specified, therefore it uses words that are 9 characters long or higher
 # The -DoNotCopyToClipboard was specified, therefore it wasn't copied to the clipboard
 # The -NoCapitalization switch was specified, therefore no capitalization was added
-Get-RandomPassword.ps1 -Language French -Long -DoNotCopyToClipboard -NoCapitalization   
+PS > Get-RandomPassword.ps1 -Language French -Long -DoNotCopyToClipboard -NoCapitalization   
 recommande-prochains-publicités
 remplacés-d'exportation-extérieur
 résolument-président-réductions
@@ -101,7 +103,7 @@ résolument-président-réductions
 # This example generates 4 passwords containing 5 long italian words (9+ characters long)
 # It utilizes the alias of Get-RandomPassword, "gr"
 # It also doesn't copy a random password to your clipboard
-gr -Language Italian -words 5 -long -count 4 -DoNotCopyToClipboard
+PS > gr -Language Italian -words 5 -long -count 4 -DoNotCopyToClipboard
 CURRICULUM-PSICOLOGIA-orfanotrofio-grandiosa-TERRIBILE
 cioccolato-coinvolto-RIPRENDENDO-stupidaggine-abbandonati
 COLONNELLO-ESECUZIONE-scommesso-mezzogiorno-meraviglia
