@@ -2,6 +2,7 @@
 [![MIT License](https://img.shields.io/badge/license-mit-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![CodeFactor](https://www.codefactor.io/repository/github/mmcmd/get-randompassword/badge)](https://www.codefactor.io/repository/github/mmcmd/get-randompassword)
 
+
 Generates random passwords using random common words
 
 [Test your password here!](https://www.security.org/how-secure-is-my-password/)
@@ -18,10 +19,10 @@ The English words have been filtered by me, however **the other languages are no
 ## How to use it
 Running `Get-Help Get-RandomPassword` will provide some details and examples, but here's a description of each parameter and what they do
 
-Parameters | Type | Functionnality
+Parameters | Type | Functionality
 -----------|------|---------------
 Words | Integer | Number of words that the password will contain. The default is 3. Example: "car-HORSE-staple" is a 3 word password
-Delimiter | Integer | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
+Delimiter | String | Separator for the passwords. Default is a dash (-). Example: "car!HORSE!staple" the delimiter here would be the exclamation point (!)
 Count | Integer | Number of passwords you want generated. Default is 3.
 Short | Switch | Generates a password containing short words (1-4 characters long).
 Medium | Switch | Generates a password containing medium words (5-8 characters long) (default if no length is specified)
