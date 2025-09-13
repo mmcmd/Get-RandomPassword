@@ -76,14 +76,19 @@ function Get-RandomPassword {
 
     $ErrorActionPreference = "Stop"
 
-    Get-ChildItem -path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
-        Write-Verbose "Loaded function $($_.fullname)"
-        . $_.FullName
+    Get-ChildItem -Path $PSScriptRoot\functions\*.ps1 | ForEach-Object { # Import the functions in the functions folder
+        try {
+            . $_.FullName
+            Write-Verbose "Loaded function $($_.fullname)"
+        }
+        catch {
+            throw "An error occured importing the function $($_.FullName) located in the functions folder. $($_.Exception.Message)"
+        }
     }
 
 
     $Available_languages = New-Object System.Collections.Generic.List[string]
-    Get-ChildItem -Directory -Path $PSScriptRoot\ressources | ForEach-Object {
+    Get-ChildItem -Path $PSScriptRoot\ressources | Where-Object { $_.PSIsContainer -eq $true } | Select-Object -ExpandProperty BaseName | ForEach-Object {
         $Available_languages.Add($_)
     }
     Write-Verbose "$($Available_languages.Count) languages found"
@@ -182,7 +187,7 @@ function Get-RandomPassword {
         try {
             Write-Verbose "Getting a random passwword from the list"
             Get-Random -InputObject $Collection -Count 1 | Set-Clipboard
-            Write-Output "A random password has been copied to your clipboard!"
+            Write-Host "A random password has been copied to your clipboard!" -ForegroundColor Green -BackgroundColor Black
         }
         catch {
             Write-Error -Message "An error occured getting a random password. $($_.Exception.Message)"
